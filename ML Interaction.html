@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>线性回归 · 交互实验室 | Linear Regression · Interactive Lab</title>
+<meta name="description" content="中英双语最小二乘线性回归交互实验：拖动数据点、切换拟合方式、查看预测和残差。 Bilingual least-squares linear regression: drag points, switch fits, and explore predictions and residuals. Includes synced cost curve, contour plot and 3D surface. Works offline.">
+<style>
+:root{font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI","Microsoft YaHei",sans-serif;color:#24272b;background:#f7f8fa}*{box-sizing:border-box}body{margin:0;padding:40px 20px}.wrap{max-width:1080px;margin:auto}h1{font-size:23px;margin:0 0 8px}.subtitle{color:#777;margin:0 0 24px;font-size:14px}.panel{background:white;border:1px solid #e9eaec;border-radius:25px;display:grid;grid-template-columns:1fr 1.15fr;overflow:hidden;box-shadow:0 10px 40px #25304408}.left{padding:30px 24px;display:flex;flex-direction:column;min-height:440px;border-right:1px solid #e9eaec}.equation{display:flex;align-items:center;justify-content:center;flex-direction:column;flex:1;gap:22px;text-align:center}.eq{font-family:Georgia,'Times New Roman',serif;font-style:italic;font-size:25px}.eq.small{font-size:22px}.metric{color:#80838a;font-family:Georgia,serif;font-size:15px;text-align:center}.controls{display:grid;gap:16px}.control-row{display:grid;grid-template-columns:52px 1fr;gap:12px;align-items:center}.control-row label{font-size:14px}.seg{display:flex;align-items:center;background:#f0f0f2;border-radius:18px;padding:3px;gap:2px}.seg button{border:0;background:transparent;flex:1;min-width:0;border-radius:15px;padding:8px 6px;font-size:13px;white-space:nowrap;color:#75777a;cursor:pointer}.seg button.active{background:#fff;color:#24272b;box-shadow:0 1px 4px #0000000d}.new{border:0;background:transparent;font-weight:600;font-size:14px;cursor:pointer;padding:14px;margin-top:4px}.new:hover{color:#1265bb}.right{padding:20px 20px 12px;min-width:0}.hint{color:#8c8f96;font-size:13px;margin:0 0 6px}svg{width:100%;height:auto;touch-action:none;user-select:none;display:block}.axis{stroke:#555;stroke-width:1.6}.grid{stroke:#f0f1f2;stroke-width:1}.tick{fill:#92959b;font-size:14px}.axis-label{fill:#222;font-size:18px;font-weight:700}.data-point{fill:#1389ee;cursor:grab;stroke:#fff;stroke-width:1.4}.data-point.dragging{cursor:grabbing;fill:#ef8a21}.fit-line{stroke:#32885b;stroke-width:2.5;fill:none}.pred-point{fill:white;stroke:#25804e;stroke-width:2}.residual{stroke:#e28a47;stroke-width:2;stroke-dasharray:5 3}.footer{font-size:12px;color:#858b93;margin:16px 5px}.legend{display:flex;justify-content:center;gap:18px;font-size:12px;color:#73777d;flex-wrap:wrap}.dot{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:6px;background:#1389ee}.dot.pred{background:#fff;border:2px solid #25804e}.dot.res{background:#e28a47}@media(max-width:780px){body{padding:22px 12px}.panel{grid-template-columns:1fr}.left{border-right:0;border-bottom:1px solid #e9eaec;min-height:330px;padding:20px}.right{padding:16px 10px}.equation{min-height:180px;gap:15px}.seg button{font-size:12px;padding:8px 3px}.control-row{grid-template-columns:44px 1fr}}
+
+/* Bilingual typography preserves the original palette and two-column layout. */
+button{font-family:inherit}
+h1 .en{font-size:.74em;font-weight:500;color:#777;display:inline-block}
+.subtitle{line-height:1.65}
+.subtitle .en,.footer .en,.hint .en{display:block}
+.left{min-height:470px}
+.equation{padding:10px 0 25px;gap:23px}
+.caption{font-family:inherit;font-style:normal;font-size:12px;color:#80838a;margin-bottom:7px;line-height:1.5}
+.metric{font-family:inherit;font-size:13px;line-height:1.75;overflow-wrap:anywhere}
+.metric .en{font-size:12px}
+.metric-row{display:block}
+.control-row{grid-template-columns:58px minmax(0,1fr);gap:10px}
+.control-label{font-size:13px;line-height:1.45}
+.control-label .en{display:block;font-size:11px;color:#75777a}
+.seg{border-radius:21px;align-items:stretch}
+.seg button{white-space:normal;line-height:1.3;padding:7px 4px;border-radius:18px;font-size:13px}
+.seg button .en{display:block;font-size:11px;margin-top:3px;white-space:nowrap}
+.new{line-height:1.6}
+.new .en{font-size:12px;font-weight:500;display:block}
+.hint{font-size:12px;line-height:1.5;margin-bottom:4px}
+.hint .en{font-size:11px}
+.axis-label{font-size:17px}
+.legend{gap:10px 16px;line-height:1.5}
+.legend .en{font-size:11px}
+.footer{line-height:1.8}
+.footer .en{font-size:11px}
+button:focus-visible,.data-point:focus-visible{outline:2px solid #1389ee;outline-offset:3px}
+.data-point:focus-visible{stroke:#263a51;stroke-width:3;outline:none}
+@media(max-width:1050px) and (min-width:781px){.control-row{grid-template-columns:1fr;gap:5px}.control-label .en{display:inline;margin-left:6px}}
+@media(max-width:780px){.left{min-height:400px}.equation{min-height:200px;gap:18px;padding-bottom:22px}.control-row{grid-template-columns:48px minmax(0,1fr)}h1 .en{display:block;margin-top:5px}}
+@media(max-width:380px){.control-row{grid-template-columns:1fr;gap:6px}.control-label .en{display:inline;margin-left:6px}.seg button .en{font-size:10px}.legend{gap:8px}}
+.cost-lab{margin:34px 0 0}
+.cost-lab h2{font-size:21px;margin:0 0 13px}
+.cost-lab h2 .en{font-size:.74em;color:#777;font-weight:500;display:inline-block}
+.cost-lab h3{font-size:16px;margin:0;line-height:1.45}
+.cost-lab h3 .en{font-weight:500;font-size:13px;color:#666;display:inline-block}
+.cost-panel{min-width:0;padding:22px 24px;background:white;border:1px solid #e9eaec;border-radius:25px;box-shadow:0 10px 40px #25304408}
+.cost-intro,.cost-maps{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}
+.cost-intro{gap:30px}
+.cost-formula{font-size:24px;margin:10px 0}
+.cost-frac{display:inline-flex;vertical-align:middle;flex-direction:column;text-align:center;font-size:.65em;padding:0 4px}
+.cost-frac span:first-child{border-bottom:1px solid;padding:0 3px}
+.cost-note{color:#666e75;font-size:13px;line-height:1.5;margin:7px 0 10px;min-height:0}
+.cost-note .en{display:block;font-size:12px}
+.cost-values{display:flex;flex-wrap:wrap;gap:12px 24px;margin-top:13px}
+.cost-values div{display:grid;gap:4px;color:#666e75;font-size:12px}
+.cost-values strong{font-variant-numeric:tabular-nums;font-size:18px;color:#1265bb}
+.cost-values div+div strong{color:#25804e}
+.cost-controls{display:flex;align-self:center;flex-direction:column;gap:7px;min-width:0}
+.cost-controls label,.cost-view-control label{font-size:13px}
+.cost-controls .en,.cost-view-control .en,.cost-key .en{font-size:11px;color:#666e75}
+.cost-controls output{float:right;margin-left:8px;color:#1265bb;font-variant-numeric:tabular-nums}
+.cost-lab input[type=range]{width:100%;margin:0 0 6px;accent-color:#1389ee;cursor:pointer}
+.cost-lab input:disabled{opacity:.38;cursor:default}
+.cost-lab select,.cost-reset{font-family:inherit;color:inherit;border:1px solid #e9eaec;border-radius:14px;background:#f7f8fa;padding:6px 10px;font-size:12px}
+.cost-reset{align-self:flex-start;cursor:pointer}
+.cost-reset:hover{color:#1265bb}
+.cost-key{display:flex;flex-wrap:wrap;gap:7px 20px;padding:12px 4px;font-size:12px}
+.cost-dash{display:inline-block;width:13px;border-top:2px dashed #cf7c36;vertical-align:middle;margin-right:5px}
+.cost-maps{margin-top:16px}
+.cost-card-head{display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap}
+.cost-card-head label{font-size:12px;color:#666e75}
+.cost-canvas{display:block;width:100%;height:300px;touch-action:none;user-select:none}
+.cost-slice .cost-canvas{height:255px}
+.cost-clickable{cursor:crosshair}
+.cost-rotate{cursor:grab}
+.cost-rotate:active{cursor:grabbing}
+.cost-scale,.cost-view-control{display:flex;align-items:center;gap:7px 10px;font-variant-numeric:tabular-nums;font-size:11px;color:#666e75}
+.cost-gradient{width:70px;height:8px;border-radius:10px;background:linear-gradient(90deg,#eef7f3,#b3dace,#73b4b5,#4e83ae)}
+.cost-view-control input[type=range]{flex:1;min-width:65px;margin:0}
+@media(max-width:780px){.cost-intro,.cost-maps{grid-template-columns:minmax(0,1fr);gap:12px}.cost-panel{padding:17px 13px}.cost-lab h2 .en{display:block;margin-top:3px}.cost-canvas{height:290px}}
+
+</style>
+</head>
+<body>
+<main class="wrap">
+  <h1>5. 核心逻辑总结 <span class="en" lang="en">Core Logic Summary</span></h1>
+  <p class="subtitle">最小二乘线性回归交互实验<span class="en" lang="en">Least-Squares Linear Regression · Interactive Lab</span></p>
+  <section class="panel" aria-label="线性回归交互实验 / Interactive linear regression lab">
+    <div class="left">
+      <div class="equation">
+        <div><div class="caption">模型 <span lang="en">Model</span></div><div class="eq" id="general">ŷ = b₀ + b₁x</div></div>
+        <div><div class="caption">拟合方程 <span lang="en">Fitted equation</span></div><div class="eq small" id="formula">ŷ = b₀ + b₁x</div></div>
+        <div class="metric" id="metric"></div>
+      </div>
+      <div class="controls">
+        <div class="control-row">
+          <span class="control-label" id="fit-label">拟合<span class="en" lang="en">Fit</span></span>
+          <div class="seg" id="fit" role="group" aria-labelledby="fit-label">
+            <button type="button" class="active" data-value="intercept" aria-pressed="true">含截距<span class="en" lang="en">Intercept</span></button>
+            <button type="button" data-value="origin" aria-pressed="false">经过原点<span class="en" lang="en">Through origin</span></button>
+          </div>
+        </div>
+        <div class="control-row">
+          <span class="control-label" id="focus-label">观察<span class="en" lang="en">Focus</span></span>
+          <div class="seg" id="focus" role="group" aria-labelledby="focus-label">
+            <button type="button" class="active" data-value="data" aria-pressed="true">数据<span class="en" lang="en">Data</span></button>
+            <button type="button" data-value="line" aria-pressed="false">直线<span class="en" lang="en">Line</span></button>
+            <button type="button" data-value="predictions" aria-pressed="false">预测<span class="en" lang="en">Predictions</span></button>
+            <button type="button" data-value="residuals" aria-pressed="false">残差<span class="en" lang="en">Residuals</span></button>
+          </div>
+        </div>
+        <button type="button" class="new" id="new">重新生成数据 ↻<span class="en" lang="en">Generate new data</span></button>
+      </div>
+    </div>
+    <div class="right">
+      <p class="hint">拖动数据点，实时重新拟合直线。<span class="en" lang="en">Drag a point to refit the line in real time.</span></p>
+      <svg id="chart" viewBox="0 0 500 400" role="group" aria-label="可拖动的线性回归散点图 / Draggable linear regression scatterplot" aria-describedby="keyboard-hint">
+        <defs><clipPath id="plot-clip"><rect x="42" y="40" width="435" height="298"/></clipPath></defs>
+        <g id="plot"></g>
+      </svg>
+      <div class="legend" aria-label="图例 / Legend">
+        <span><i class="dot" aria-hidden="true"></i>数据 <span class="en" lang="en">Data</span></span>
+        <span><i class="dot pred" aria-hidden="true"></i>预测值 <span class="en" lang="en">Prediction</span></span>
+        <span><i class="dot res" aria-hidden="true"></i>残差 <span class="en" lang="en">Residual</span></span>
+      </div>
+    </div>
+  </section>
+<section class="cost-lab" aria-labelledby="cost-heading">
+  <h2 id="cost-heading">探索成本函数 <span class="en" lang="en">Explore the Cost Function</span></h2>
+  <div class="cost-panel cost-intro">
+    <div class="cost-copy">
+      <h3>成本函数 <span class="en" lang="en">Cost Function</span></h3>
+      <p class="eq cost-formula" aria-label="成本等于残差平方和除以两倍样本数 / Cost equals the sum of squared residuals divided by twice the sample count">J(b₀, b₁) = <span class="cost-frac"><span>1</span><span>2n</span></span> ∑ (ŷᵢ − yᵢ)²</p>
+      <p class="cost-note">调整截距和斜率，观察上方直线和下方三张图如何一起变化。<span class="en" lang="en">Adjust the intercept and slope to update the line above and the three views below.</span></p>
+      <div class="cost-values">
+        <div><span>当前成本 <span class="en" lang="en">Current cost</span></span><strong id="cost-current">0</strong></div>
+        <div><span>最小成本 <span class="en" lang="en">Minimum cost</span></span><strong id="cost-minimum">0</strong></div>
+      </div>
+    </div>
+    <div class="cost-controls">
+      <label for="cost-b0">截距 b₀ <span class="en" lang="en">Intercept</span><output id="cost-b0-value" for="cost-b0"></output></label>
+      <input id="cost-b0" type="range" step="any">
+      <label for="cost-b1">斜率 b₁ <span class="en" lang="en">Slope</span><output id="cost-b1-value" for="cost-b1"></output></label>
+      <input id="cost-b1" type="range" step="any">
+      <p class="cost-note" id="cost-constraint" hidden>经过原点时，截距固定为 0。<span class="en" lang="en">Through-origin fits fix the intercept at 0.</span></p>
+      <button type="button" class="cost-reset" id="cost-reset">回到最小二乘解 <span class="en" lang="en">Return to least-squares fit</span></button>
+    </div>
+  </div>
+  <div class="cost-key">
+    <span><i class="dot" aria-hidden="true"></i>当前参数 <span class="en" lang="en">Current parameters</span></span>
+    <span><i class="dot pred" aria-hidden="true"></i>最小二乘解 <span class="en" lang="en">Least-squares fit</span></span>
+    <span id="cost-key-origin" hidden><i class="cost-dash" aria-hidden="true"></i>b₀ = 0 约束 <span class="en" lang="en">constraint</span></span>
+  </div>
+  <div class="cost-panel cost-slice">
+    <div class="cost-card-head">
+      <h3>成本函数曲线 <span class="en" lang="en">Cost Function Curve</span></h3>
+      <label for="cost-slice-axis">横轴 <span class="en" lang="en">Horizontal axis</span>
+        <select id="cost-slice-axis">
+          <option value="b1">斜率 b₁ / Slope</option>
+          <option value="b0">截距 b₀ / Intercept</option>
+        </select>
+      </label>
+    </div>
+    <p class="cost-note" id="cost-slice-hint"></p>
+    <canvas class="cost-canvas cost-clickable" id="cost-curve" role="img" aria-label="固定一个参数时的成本函数曲线 / Cost function curve with one coefficient held fixed"></canvas>
+  </div>
+  <div class="cost-maps">
+    <div class="cost-panel">
+      <h3>等高线图 <span class="en" lang="en">Contour Plot</span></h3>
+      <p class="cost-note">同一条等高线上的成本相同。点击或拖动可改变参数。<span class="en" lang="en">Each contour has a constant cost. Click or drag to change the parameters.</span></p>
+      <canvas class="cost-canvas cost-clickable" id="cost-contour" role="img" aria-label="截距和斜率的成本等高线图 / Cost contours over intercept and slope"></canvas>
+      <div class="cost-scale"><span id="cost-low"></span><span class="cost-gradient" aria-hidden="true"></span><span id="cost-high"></span><span>成本 J <span class="en" lang="en">Cost</span></span></div>
+    </div>
+    <div class="cost-panel">
+      <h3>成本函数 3D 曲面 <span class="en" lang="en">3D Surface of Cost Function</span></h3>
+      <p class="cost-note">曲面高度代表成本。拖动曲面或使用下方滑块旋转。<span class="en" lang="en">Height represents cost. Drag the surface or use the slider below to rotate it.</span></p>
+      <canvas class="cost-canvas cost-rotate" id="cost-surface" role="img" aria-label="可旋转的三维成本曲面 / Rotatable 3D cost surface"></canvas>
+      <div class="cost-view-control"><label for="cost-angle">旋转视角 <span class="en" lang="en">Rotate view</span></label><input id="cost-angle" type="range" min="-180" max="180" step="1" value="-38"></div>
+    </div>
+  </div>
+</section>
+
+  <p class="footer">离线单文件 · 可拖动蓝色数据点 · 参数及 R² 实时更新 · 可直接嵌入个人网站<span class="en" lang="en">One offline HTML file · Draggable blue data points · Live parameters and R² · Ready to embed in your website</span></p>
+  <p class="footer" id="keyboard-hint">键盘操作：按 Tab 选中数据点，用方向键移动；按住 Shift 可加快移动。<span class="en" lang="en">Keyboard: Tab to a data point and use the arrow keys to move it; hold Shift for larger steps.</span></p>
+  <noscript><p class="footer">请启用 JavaScript 以使用交互功能。<span class="en" lang="en">Please enable JavaScript to use the interactive features.</span></p></noscript>
+</main>
+
+<script>
+function createCostLab(renderRegression) {
+  const byId = name => document.getElementById('cost-' + name);
+  const sliders = {b0: byId('b0'), b1: byId('b1')};
+  const a0 = '截距 b₀ / Intercept';
+  const a1 = '斜率 b₁ / Slope';
+  const axisSelect = byId('slice-axis');
+  const angle = byId('angle');
+  const curve = byId('curve');
+  const contour = byId('contour');
+  const surface = byId('surface');
+  const blue = '#1389ee', green = '#25804e', orange = '#cf7c36';
+  const clamp = (value, low, high) => Math.min(high, Math.max(low, value));
+  const show = (value, digits = 2) => {
+    if (value !== 0 && (Math.abs(value) >= 10000 || (digits === 3 && Math.abs(value) < .001))) return value.toExponential(1);
+    return Number(value.toFixed(digits)).toString();
+  };
+  let trial = null, optimum, mode, snapshot = [], domain, stats, peak, grid, scheduled = false;
+  let sliceBox, mapBox;
+  let elevation = .53;
+
+  // The centered quadratic is the same half-MSE as summing all the residuals.
+  function cost(b0, b1) {
+    const meanError = b0 + b1 * stats.meanX - stats.meanY;
+    const slopeError = b1 - stats.centeredSlope;
+    return .5 * (meanError ** 2 + stats.varianceX * slopeError ** 2 + stats.noise);
+  }
+
+  function update(data, fitMode, best) {
+    if (mode !== fitMode) trial = null;
+    if (mode !== fitMode || data.length !== snapshot.length || data.some((p, i) => p !== snapshot[i])) {
+      mode = fitMode;
+      snapshot = data.slice();
+      const meanX = data.reduce((s, p) => s + p.x, 0) / data.length;
+      const meanY = data.reduce((s, p) => s + p.y, 0) / data.length;
+      const varianceX = data.reduce((s, p) => s + (p.x - meanX) ** 2, 0) / data.length;
+      const covariance = data.reduce((s, p) => s + (p.x - meanX) * (p.y - meanY), 0) / data.length;
+      const centeredSlope = varianceX ? covariance / varianceX : 0;
+      const noise = data.reduce((s, p) => s + (centeredSlope * (p.x - meanX) - (p.y - meanY)) ** 2, 0) / data.length;
+      stats = {meanX, meanY, varianceX, centeredSlope, noise};
+      const range0 = Math.max(6, Math.abs(best.b1) * .25);
+      const range1 = Math.max(1.25, Math.abs(best.b1) * .45);
+      domain = {
+        b0: [Math.min(best.b0 - range0, trial?.b0 ?? Infinity), Math.max(best.b0 + range0, trial?.b0 ?? -Infinity)],
+        b1: [Math.min(best.b1 - range1, trial?.b1 ?? Infinity), Math.max(best.b1 + range1, trial?.b1 ?? -Infinity)]
+      };
+      peak = Math.max(...domain.b0.flatMap(b0 => domain.b1.map(b1 => cost(b0, b1))));
+      grid = null;
+      for (const key of Object.keys(sliders)) [sliders[key].min, sliders[key].max] = domain[key];
+    }
+    optimum = best;
+    const current = trial || best;
+    const constrained = mode === 'origin';
+    sliders.b0.disabled = constrained;
+    byId('constraint').hidden = !constrained;
+    byId('key-origin').hidden = !constrained;
+    axisSelect.options[1].disabled = constrained;
+    if (constrained) axisSelect.value = 'b1';
+    for (const key of Object.keys(sliders)) {
+      sliders[key].value = current[key];
+      sliders[key].setAttribute('aria-valuetext', show(current[key], 3));
+      byId(key + '-value').textContent = show(current[key], 3);
+    }
+    byId('current').textContent = show(cost(current.b0, current.b1), 3);
+    byId('minimum').textContent = show(cost(best.b0, best.b1), 3);
+    schedule();
+    return current;
+  }
+
+  function setTrial(values) {
+    const next = {...(trial || optimum), ...values};
+    trial = {
+      b0: mode === 'origin' ? 0 : clamp(next.b0, ...domain.b0),
+      b1: clamp(next.b1, ...domain.b1)
+    };
+    renderRegression();
+  }
+
+  function schedule() {
+    if (scheduled || !stats) return;
+    scheduled = true;
+    requestAnimationFrame(() => {
+      scheduled = false;
+      drawCurve();
+      drawContour();
+      drawSurface();
+    });
+  }
+
+  function canvasContext(canvas) {
+    const w = canvas.clientWidth, h = canvas.clientHeight;
+    if (!w || !h) return null;
+    const ratio = Math.min(window.devicePixelRatio || 1, 2);
+    const pixelsW = Math.round(w * ratio), pixelsH = Math.round(h * ratio);
+    if (canvas.width !== pixelsW || canvas.height !== pixelsH) {
+      canvas.width = pixelsW;
+      canvas.height = pixelsH;
+    }
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return null;
+    ctx.setTransform(ratio, 0, 0, ratio, 0, 0);
+    ctx.clearRect(0, 0, w, h);
+    ctx.lineJoin = 'round';
+    return {ctx, w, h};
+  }
+
+  function line(ctx, points, color, width = 1) {
+    ctx.beginPath();
+    ctx.moveTo(...points[0]);
+    for (let i = 1; i < points.length; i++) ctx.lineTo(...points[i]);
+    ctx.strokeStyle = color;
+    ctx.lineWidth = width;
+    ctx.stroke();
+  }
+
+  function label(ctx, value, x, y, align = 'center', size = 11, color = '#666e75') {
+    ctx.textAlign = align;
+    ctx.textBaseline = 'middle';
+    ctx.font = size + 'px "Segoe UI", "Microsoft YaHei", sans-serif';
+    ctx.fillStyle = color;
+    ctx.fillText(value, x, y);
+  }
+
+  function marker(ctx, x, y, isBest) {
+    ctx.beginPath();
+    ctx.arc(x, y, isBest ? 7 : 4.7, 0, Math.PI * 2);
+    ctx.fillStyle = isBest ? '#fff' : blue;
+    ctx.fill();
+    ctx.strokeStyle = isBest ? green : '#fff';
+    ctx.lineWidth = isBest ? 2 : 1;
+    ctx.stroke();
+  }
+
+  const mix = ([min, max], t) => min + t * (max - min);
+  const fraction = ([min, max], value) => (value - min) / (max - min);
+
+  function axes(ctx, box, xRange, yRange, xLabel, yLabel) {
+    for (let i = 0; i <= 4; i++) {
+      const x = box.l + i * box.w / 4, y = box.b - i * box.h / 4;
+      line(ctx, [[x, box.t], [x, box.b]], '#edf0f1');
+      line(ctx, [[box.l, y], [box.r, y]], '#edf0f1');
+      label(ctx, show(mix(xRange, i / 4)), x, box.b + 14);
+      label(ctx, show(mix(yRange, i / 4)), box.l - 7, y, 'right');
+    }
+    line(ctx, [[box.l, box.t], [box.l, box.b], [box.r, box.b]], '#777f85', 1.35);
+    label(ctx, yLabel, box.l, box.t - 12, 'left', 12, '#24272b');
+    label(ctx, xLabel, (box.l + box.r) / 2, box.b + 36, 'center', 12, '#24272b');
+  }
+
+  function plotBox(w, h) {
+    const l = 54, t = 24, r = w - 21, b = h - 49;
+    return {l,t,r,b,w:r-l,h:b-t};
+  }
+
+  function drawCurve() {
+    const view = canvasContext(curve);
+    if (!view) return;
+    const {ctx,w,h} = view;
+    const box = sliceBox = plotBox(w,h);
+    const key = axisSelect.value;
+    const {b0,b1} = trial || optimum;
+    const values = domain[key];
+    const variesSlope = key === 'b1';
+    const fixed = variesSlope ? b0 : b1;
+    const evaluate = variesSlope ? x => cost(fixed, x) : x => cost(x, fixed);
+    const hint = byId('slice-hint');
+    hint.textContent = (variesSlope ? '固定截距 b₀' : '固定斜率 b₁') + ' = ' + show(fixed, 3) + '。点击或拖动曲线区域可改变横轴参数。';
+    const translation = document.createElement('span');
+    translation.className = 'en';
+    translation.lang = 'en';
+    translation.textContent = (variesSlope ? 'Intercept b₀' : 'Slope b₁') + ' fixed at ' + show(fixed, 3) + '. Click or drag in the plot to change the horizontal-axis parameter.';
+    hint.append(translation);
+    const max = 1.08 * Math.max(evaluate(values[0]), evaluate(values[1]), .001);
+    const x = v => box.l + box.w * fraction(values,v);
+    const y = v => box.b - box.h * v / max;
+    axes(ctx, box, values, [0,max], variesSlope ? a1 : a0, '成本 J / Cost');
+    const path = Array.from({length:97}, (_,i) => {
+      const v = mix(values,i/96);
+      return [x(v),y(evaluate(v))];
+    });
+    line(ctx,path,green,2.3);
+    if (!trial || Math.abs((variesSlope ? optimum.b0 : optimum.b1) - fixed) < 1e-9) {
+      const bestX = optimum[key];
+      marker(ctx,x(bestX),y(evaluate(bestX)),true);
+    }
+    const currentX = variesSlope ? b1 : b0;
+    marker(ctx,x(currentX),y(evaluate(currentX)),false);
+  }
+
+  function palette(value) {
+    const stops = [[238,247,243],[179,218,206],[115,180,181],[78,131,174]];
+    const level = Math.min(2.99999, clamp(value,0,1)*3);
+    const i = Math.floor(level);
+    return 'rgb(' + stops[i].map((c,k) => Math.round(c+(stops[i+1][k]-c)*(level-i))).join(',') + ')';
+  }
+
+  const segments = 54;
+  function drawContour() {
+    const view = canvasContext(contour);
+    if (!view) return;
+    const {ctx,w,h} = view;
+    const box = mapBox = plotBox(w,h);
+    if (!grid) grid = Array.from({length:segments+1},(_,j) =>
+      Array.from({length:segments+1},(_,i) => cost(mix(domain.b0,i/segments),mix(domain.b1,j/segments))));
+    const dx = box.w/segments, dy = box.h/segments;
+    const levels = [.015,.04,.08,.14,.23,.37,.58,.8].map(v => v * peak);
+    for (let j=0; j<segments; j++) for (let i=0; i<segments; i++) {
+      const values = [grid[j][i],grid[j][i+1],grid[j+1][i+1],grid[j+1][i]];
+      const left = box.l + i*dx, bottom = box.b - j*dy;
+      const normalizedCost = values.reduce((s,v) => s+v,0)/(4*peak);
+      ctx.fillStyle = palette(Math.sqrt(normalizedCost));
+      ctx.fillRect(left,bottom-dy,dx+.24,dy+.24);
+    }
+    axes(ctx,box,domain.b0,domain.b1,a0,a1);
+    ctx.save();
+    ctx.beginPath(); ctx.rect(box.l,box.t,box.w,box.h); ctx.clip();
+    for (let j=0; j<segments; j++) for (let i=0; i<segments; i++) {
+      const values = [grid[j][i],grid[j][i+1],grid[j+1][i+1],grid[j+1][i]];
+      const left = box.l + i*dx, bottom = box.b - j*dy;
+      const corners = [[left,bottom],[left+dx,bottom],[left+dx,bottom-dy],[left,bottom-dy]];
+      const low = Math.min(...values), high = Math.max(...values);
+      for (const level of levels) {
+        if (level < low || level >= high) continue;
+        const crossings = [];
+        for (let k=0;k<4;k++) {
+          const next = (k+1)%4;
+          if ((values[k] <= level) === (values[next] <= level)) continue;
+          const t = (level-values[k])/(values[next]-values[k]);
+          crossings.push(corners[k].map((v,d) => v+t*(corners[next][d]-v)));
+        }
+        for (let k=1;k<crossings.length;k+=2) line(ctx,[crossings[k-1],crossings[k]],'#285d69a0',1);
+      }
+    }
+    ctx.restore();
+    const x = b0 => box.l + box.w * fraction(domain.b0,b0);
+    const y = b1 => box.b - box.h * fraction(domain.b1,b1);
+    if (mode === 'origin') {
+      ctx.setLineDash([5,4]);
+      line(ctx,[[x(0),box.t],[x(0),box.b]],orange,1.8);
+      ctx.setLineDash([]);
+    }
+    marker(ctx,x(optimum.b0),y(optimum.b1),true);
+    const current = trial || optimum;
+    marker(ctx,x(current.b0),y(current.b1),false);
+    byId('low').textContent = '0';
+    byId('high').textContent = show(peak);
+  }
+
+  function drawSurface() {
+    const view = canvasContext(surface);
+    if (!view) return;
+    const {ctx,w,h} = view;
+    const azimuth = Number(angle.value)*Math.PI/180;
+    const sin = Math.sin(azimuth), cos = Math.cos(azimuth);
+    const rise = Math.sin(elevation), height = Math.cos(elevation);
+    const scale = Math.min((w-48)/2.83,(h-62)/2.3);
+    function project(u,v,z) {
+      const x = u*2-1, y = v*2-1;
+      const depth = x*sin+y*cos;
+      return {xy:[w/2+scale*(x*cos-y*sin),h*.52+scale*(depth*rise-z*height)],depth:depth*height+z*rise};
+    }
+    function at(u,v) {
+      const z = cost(mix(domain.b0,u),mix(domain.b1,v))/peak;
+      return {...project(u,v,z),z};
+    }
+    for(let i=0;i<=4;i++){
+      const t=i/4;
+      line(ctx,[project(t,0,0).xy,project(t,1,0).xy],'#e4e8eb');
+      line(ctx,[project(0,t,0).xy,project(1,t,0).xy],'#e4e8eb');
+    }
+    const n=24;
+    const vertices=Array.from({length:n+1},(_,j)=>Array.from({length:n+1},(_,i)=>at(i/n,j/n)));
+    const faces=[];
+    for(let j=0;j<n;j++) for(let i=0;i<n;i++){
+      const corners=[vertices[j][i],vertices[j][i+1],vertices[j+1][i+1],vertices[j+1][i]];
+      faces.push({corners,depth:corners.reduce((a,p)=>a+p.depth,0)/4});
+    }
+    faces.sort((a,b)=>a.depth-b.depth);
+    for(const {corners} of faces){
+      const path=corners.map(p=>p.xy);
+      ctx.beginPath();ctx.moveTo(...path[0]);
+      path.slice(1).forEach(p=>ctx.lineTo(...p));ctx.closePath();
+      ctx.fillStyle=palette(Math.sqrt(corners.reduce((a,p)=>a+p.z,0)/4));
+      ctx.fill();
+      ctx.strokeStyle='#41717e55';ctx.lineWidth=.55;ctx.stroke();
+    }
+    const frontU=sin>0?1:0, frontV=cos>0?1:0;
+    const front=project(frontU,frontV,0).xy;
+    line(ctx,[project(1-frontU,frontV,0).xy,front,project(frontU,1-frontV,0).xy],'#777f85',1.2);
+    const b0Label=project(.5,frontV,0).xy, b1Label=project(frontU,.5,0).xy;
+    label(ctx,'b₀',b0Label[0]+(b0Label[0]<front[0]?-12:12),b0Label[1]+13,'center',12,'#24272b');
+    label(ctx,'b₁',b1Label[0]+(b1Label[0]<front[0]?-12:12),b1Label[1]+13,'center',12,'#24272b');
+    const zBase=project(1-frontU,1-frontV,0).xy, zTop=project(1-frontU,1-frontV,1).xy;
+    line(ctx,[zBase,zTop],'#777f85',1.1);
+    label(ctx,'J',zTop[0],zTop[1]-9,'center',12,'#24272b');
+    if(mode==='origin') {
+      const u=fraction(domain.b0,0);
+      ctx.setLineDash([4,3]);
+      line(ctx,Array.from({length:49},(_,i)=>at(u,i/48).xy),orange,1.7);
+      ctx.setLineDash([]);
+    }
+    const position = pair => at(fraction(domain.b0,pair.b0),fraction(domain.b1,pair.b1)).xy;
+    marker(ctx,...position(optimum),true);
+    marker(ctx,...position(trial || optimum),false);
+    label(ctx,a0,w/2,16,'right');
+    label(ctx,a1,w/2+13,16,'left');
+    label(ctx,'高度：成本 J / Height: Cost',w/2,h-13);
+  }
+
+  function pointerDrag(canvas, onStart, onMove) {
+    let pointerId = null;
+    const position = e => {
+      const rect = canvas.getBoundingClientRect();
+      return [e.clientX-rect.left,e.clientY-rect.top];
+    };
+    canvas.addEventListener('pointerdown',e=>{
+      if(pointerId!==null || e.button!==0 || !onStart(...position(e))) return;
+      pointerId=e.pointerId;
+      canvas.setPointerCapture(pointerId);
+      e.preventDefault();
+    });
+    canvas.addEventListener('pointermove',e=>{if(e.pointerId===pointerId) onMove(...position(e));});
+    for (const event of ['pointerup','pointercancel','lostpointercapture']) {
+      canvas.addEventListener(event,e=>{if(e.pointerId===pointerId) pointerId=null;});
+    }
+  }
+  function onPlot(box, x, y) {
+    return box && x>=box.l && x<=box.r && y>=box.t && y<=box.b;
+  }
+  const editSlice = x => {
+    const key=axisSelect.value;
+    setTrial({[key]:mix(domain[key],clamp((x-sliceBox.l)/sliceBox.w,0,1))});
+  };
+  pointerDrag(curve,(x,y)=>{if(!onPlot(sliceBox,x,y))return false;editSlice(x);return true;},editSlice);
+  const editContour = (x,y) => setTrial({
+    b0:mix(domain.b0,clamp((x-mapBox.l)/mapBox.w,0,1)),
+    b1:mix(domain.b1,clamp((mapBox.b-y)/mapBox.h,0,1))
+  });
+  pointerDrag(contour,(x,y)=>{if(!onPlot(mapBox,x,y))return false;editContour(x,y);return true;},editContour);
+  let lastX,lastY;
+  pointerDrag(surface,(x,y)=>{lastX=x;lastY=y;return true;},(x,y)=>{
+    const next=Number(angle.value)+(x-lastX)*1.05;
+    angle.value=((next+180)%360+360)%360-180;
+    elevation=clamp(elevation+(y-lastY)*.012,.18,1.13);
+    lastX=x;lastY=y;schedule();
+  });
+  for(const key of Object.keys(sliders)) sliders[key].addEventListener('input',()=>setTrial({[key]:Number(sliders[key].value)}));
+  axisSelect.addEventListener('change',schedule);
+  angle.addEventListener('input',schedule);
+  byId('reset').addEventListener('click',()=>{trial=null;renderRegression();});
+  window.addEventListener('resize',schedule);
+  return {update, reset(){trial=null;}};
+}
+
+(()=>{'use strict';const svg=document.getElementById('chart'),plot=document.getElementById('plot');const NS='http://www.w3.org/2000/svg';const L=42,R=477,T=40,B=338,XMAX=10,YMAX=10;let fit='intercept',focus='data',drag=-1,activePointer=null;let points=[{x:.9,y:5.4},{x:.9,y:6.5},{x:1.7,y:8.7},{x:1.7,y:6.7},{x:2.5,y:5.8},{x:2.5,y:7.6},{x:3.3,y:7.7},{x:3.3,y:6.1},{x:4.3,y:5.3},{x:5.2,y:6.2},{x:6,y:4.2},{x:7.1,y:5.6},{x:8,y:3.2},{x:8.8,y:4.1}];function sx(x){return L+x/XMAX*(R-L)}function sy(y){return B-y/YMAX*(B-T)}function xy(ev){const p=svg.createSVGPoint();p.x=ev.clientX;p.y=ev.clientY;const m=svg.getScreenCTM();if(!m)return{x:0,y:0};const q=p.matrixTransform(m.inverse());return{x:Math.max(0,Math.min(XMAX,(q.x-L)/(R-L)*XMAX)),y:Math.max(0,Math.min(YMAX,(B-q.y)/(B-T)*YMAX))}}function el(tag,attrs={},text){const n=document.createElementNS(NS,tag);for(const[k,v]of Object.entries(attrs))n.setAttribute(k,v);if(text!==undefined)n.textContent=text;plot.appendChild(n);return n}function calc(){let n=points.length,mx=points.reduce((s,p)=>s+p.x,0)/n,my=points.reduce((s,p)=>s+p.y,0)/n;let xx=0,xy=0;if(fit==='intercept'){for(const p of points){xx+=(p.x-mx)**2;xy+=(p.x-mx)*(p.y-my)}}else{for(const p of points){xx+=p.x*p.x;xy+=p.x*p.y}}let b1=xx>1e-10?xy/xx:0,b0=fit==='intercept'?my-b1*mx:0;let sse=points.reduce((s,p)=>s+(p.y-b0-b1*p.x)**2,0);let base=fit==='intercept'?my:0;let sst=points.reduce((s,p)=>s+(p.y-base)**2,0);let r2=sst<1e-10?(sse<1e-10?1:0):1-sse/sst;return{b0,b1,r2}}const costLab = createCostLab(render);
+function render(){
+  const best = calc();
+  const current = costLab.update(points, fit, best);
+  const {b0, b1} = current;
+  const isTrial = current !== best;
+  let r2 = best.r2;
+  if (isTrial) {
+    const error = points.reduce((sum,p) => sum + (p.y-b0-b1*p.x)**2, 0);
+    const baseline = fit === 'origin' ? 0 : points.reduce((sum,p) => sum+p.y, 0)/points.length;
+    const total = points.reduce((sum,p) => sum + (p.y-baseline)**2, 0);
+    r2 = total > 1e-10 ? 1-error/total : null;
+  }
+  plot.replaceChildren();for(let v=0;v<=10;v+=2){el('line',{x1:L,y1:sy(v),x2:R,y2:sy(v),class:'grid'});el('line',{x1:sx(v),y1:T,x2:sx(v),y2:B,class:'grid'});if(v>0){el('text',{x:L-10,y:sy(v)+5,'text-anchor':'end',class:'tick'},String(v));el('text',{x:sx(v),y:B+23,'text-anchor':'middle',class:'tick'},String(v))}}el('line',{x1:L,y1:T,x2:L,y2:B,class:'axis'});el('line',{x1:L,y1:B,x2:R,y2:B,class:'axis'});el('text',{x:L+12,y:23,class:'axis-label'},'响应变量 Response');el('text',{x:(L+R)/2,y:386,'text-anchor':'middle',class:'axis-label'},'预测变量 Predictor');el('line',{x1:sx(0),y1:sy(b0),x2:sx(10),y2:sy(b0+10*b1),class:'fit-line','clip-path':'url(#plot-clip)',opacity:focus==='data'?.82:1});points.forEach((p,i)=>{let yhat=b0+b1*p.x;if(focus==='residuals')el('line',{x1:sx(p.x),y1:sy(p.y),x2:sx(p.x),y2:sy(yhat),class:'residual','clip-path':'url(#plot-clip)'});if(focus==='predictions'||focus==='line'||focus==='residuals')el('circle',{cx:sx(p.x),cy:sy(yhat),r:4.2,class:'pred-point','clip-path':'url(#plot-clip)'});const c=el('circle',{cx:sx(p.x),cy:sy(p.y),r:6,class:'data-point'+(drag===i?' dragging':'')});c.dataset.index=i;
+c.setAttribute('tabindex','0');
+c.setAttribute('role','button');
+c.setAttribute('aria-label',`数据点 ${i+1} / Data point ${i+1}: x = ${p.x.toFixed(2)}, y = ${p.y.toFixed(2)}; 方向键移动 / Move with arrow keys`);
+c.addEventListener('pointerdown',e=>{if(drag!==-1 || (e.pointerType==='mouse' && e.button!==0))return;drag=i;activePointer=e.pointerId;svg.setPointerCapture(e.pointerId);e.preventDefault();render()});
+c.addEventListener('keydown',e=>{const step=e.shiftKey?.5:.1;const delta={ArrowLeft:[-step,0],ArrowRight:[step,0],ArrowUp:[0,step],ArrowDown:[0,-step]}[e.key];if(!delta)return;e.preventDefault();points[i]={x:Math.max(0,Math.min(XMAX,p.x+delta[0])),y:Math.max(0,Math.min(YMAX,p.y+delta[1]))};render();plot.querySelector('[data-index="'+i+'"]').focus()})});document.getElementById('general').textContent=fit==='intercept'?'ŷ = b₀ + b₁x':'ŷ = b₁x';const fmt=v=>Math.abs(v)<.005?'0.00':Math.abs(v).toFixed(2);const signed=v=>(v<-.005?'−':'')+fmt(v);
+document.getElementById('formula').textContent='ŷ = '+(fit==='intercept'?signed(b0)+(b1<-.005?' − ':' + ')+fmt(b1):signed(b1))+'x';
+document.getElementById('metric').innerHTML='<span class="metric-row">'+(fit==='intercept'?(isTrial?'手动参数 <span class="en" lang="en">Manual parameters</span>':'估计截距 <span class="en" lang="en">Estimated intercept</span>'):'经过原点 <span class="en" lang="en">Through origin</span>')+'</span><span class="metric-row">'+(fit==='intercept'?'决定系数 <span class="en" lang="en">R-squared</span>':'非中心化决定系数 <span class="en" lang="en">Uncentered R-squared</span>')+' · R² = '+(r2 === null ? '—' : r2.toFixed(2))+'</span>'}function bindSeg(id,callback){document.querySelectorAll('#'+id+' button').forEach(b=>b.addEventListener('click',()=>{document.querySelectorAll('#'+id+' button').forEach(x=>{x.classList.remove('active');x.setAttribute('aria-pressed','false')});b.classList.add('active');b.setAttribute('aria-pressed','true');callback(b.dataset.value);render()}))}svg.addEventListener('pointermove',e=>{if(drag<0||e.pointerId!==activePointer)return;points[drag]=xy(e);render()});
+function finishDrag(e){if(drag<0||e.pointerId!==activePointer)return;const pointer=activePointer;drag=-1;activePointer=null;if(svg.hasPointerCapture(pointer))svg.releasePointerCapture(pointer);render()}
+svg.addEventListener('pointerup',finishDrag);
+svg.addEventListener('pointercancel',finishDrag);
+svg.addEventListener('lostpointercapture',finishDrag);
+bindSeg('fit',v=>fit=v);bindSeg('focus',v=>focus=v);document.getElementById('new').addEventListener('click',()=>{costLab.reset();let slope=(Math.random()-.5)*1.7,intercept=2+Math.random()*6;points=Array.from({length:14},(_,i)=>({x:.7+i*.65,y:Math.max(.4,Math.min(9.6,intercept+slope*(.7+i*.65)+(Math.random()-.5)*3))}));render()});render()})();
+</script></body></html>

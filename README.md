@@ -1,6 +1,6 @@
 # 我的课程笔记库
 
-这里存放了我在 bilibili 大学学习课程的笔记与配套资料，目前上传了翁恺老师的 C 语言笔记，后续还会上传 Crash Course Computer Science、数学、英语、嵌入式的笔记。
+这里存放了我在 bilibili 大学学习课程的笔记与配套资料，目前上传了翁恺老师的 C 语言笔记，后续还会上传 Crash Course Computer Science、数学、英语、嵌入式系统（ZJU）、Neural Networks: Zero To Hero | by Andrej Karpathy 的笔记。
 
 ## 翁恺老师的 C 语言课程
 
@@ -71,6 +71,36 @@
 - 10.1.x 字符串
 
 > 知道字符串本质是 char 数组，以 \0 结尾就行，不用死磕那些库函数
+
+## 吴恩达《机器学习》（Coursera）
+
+正在学习 Coursera 版吴恩达机器学习课程，笔记整理中......（如果有人点star，我就马上出）（尴尬）
+
+### 知识体系
+
+```text
+人工智能（Artificial Intelligence, AI）
+│
+└── 机器学习（Machine Learning, ML）
+    │
+    ├── 监督学习（Supervised Learning）
+    │   ├── 线性回归（Linear Regression）
+    │   ├── 逻辑回归（Logistic Regression）
+    │   └── 决策树（Decision Trees）
+    │
+    ├── 无监督学习（Unsupervised Learning）
+    │   ├── K-Means
+    │   └── PCA
+    │
+    └── 神经网络（Neural Networks）
+        │
+        └── 深度学习（Deep Learning）
+            ├── CNN（卷积神经网络）
+            ├── RNN（循环神经网络）
+            └── Transformer
+```
+
+> 网页笔记：[线性回归 · 交互实验室](./ML%20Interaction.html)——拖动数据点，直观理解最小二乘拟合与代价函数
 
 ## 其他课程（整理中）
 
