@@ -100,7 +100,7 @@
             └── Transformer
 ```
 
-> 网页笔记：[线性回归 · 交互实验室](./ML%20Interaction.html)——拖动数据点，直观理解最小二乘拟合与代价函数
+> 网页笔记：[线性回归 · 交互实验室](https://pc-cccc.github.io/my-course-notes/ML%20Interaction.html)——拖动数据点，直观理解最小二乘拟合与代价函数
 
 ## 其他课程（整理中）
 
