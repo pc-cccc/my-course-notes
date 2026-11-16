@@ -1,10 +1,30 @@
 # 我的课程笔记
 
-公开课学习笔记与配套资料。
+笔记与相关资料。
 
 **[在线笔记目录](https://pc-cccc.github.io/my-course-notes/)**
 
-- C 语言 · 翁恺：[逻辑（上）](c-01-algorithm-logic-part1.pdf)、[逻辑（下）](c-02-algorithm-logic-part2.pdf)、[C 语言核心](c-03-c-language-core.pdf)
-- 机器学习 · 吴恩达：[线性回归交互页面](https://pc-cccc.github.io/my-course-notes/ML%20Interaction.html)
+## 目录
 
-笔记按个人学习需要有所取舍，说明见在线目录。
+- C语言基础 by翁恺
+  - [算法的基本逻辑能力（上）](c-01-algorithm-logic-part1.pdf)
+  - [算法的基本逻辑能力（下）](c-02-algorithm-logic-part2.pdf)
+  - [核心](c-03-c-language-core.pdf)
+- 数学
+  - 高等数学 by宋浩
+  - 线性代数 by宋浩
+- 英语
+  - 英语四级作文
+  - 英语六级
+    - 作文
+    - 词汇
+- Crash Course Computer Science by Carrie Anne Philbin
+  - 参考笔记
+- Machine Learning by Andrew Ng
+  - [ML Interaction.html](ML%20Interaction.html)
+
+---
+
+
+---
+详细说明见在线目录。
