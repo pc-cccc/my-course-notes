@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="个人课程笔记目录：翁恺 C 语言、吴恩达机器学习、宋浩高等数学、英语四级作文等课程笔记。">
-  <title>我的课程笔记目录</title>
+  <title>在线笔记目录</title>
   <style>
     * { box-sizing: border-box; }
     html { color-scheme: light; background: #fff; }
@@ -30,6 +30,8 @@
     summary { cursor: pointer; }
     details ul { margin-block: 6px 16px; }
     details li { margin: 4px 0; }
+    blockquote { margin: 8px 0 16px; padding: 4px 18px; border-left: 3px solid #ccc; color: #666; }
+    blockquote ul { list-style: none; }
     footer { margin-top: 36px; padding-top: 16px; border-top: 1px solid #eee; font-size: 16px; }
     @media (max-width: 600px) {
       body { margin: 24px auto; padding: 0 18px; font-size: 16px; }
@@ -40,86 +42,99 @@
 </head>
 <body>
 <main>
-  <h1>我的课程笔记目录</h1>
-  <p>公开课学习笔记与配套资料。</p>
+  <h1>在线笔记目录</h1>
 
   <section aria-labelledby="c-language">
-    <h2 id="c-language">一、C 语言程序设计 · 翁恺</h2>
-    <p>浙江大学翁恺老师的 C 语言入门课。笔记分为以下三部分：</p>
+    <h2 id="c-language">C语言基础 by翁恺</h2>
+    <p>课程说明：0基础C语言课程。</p>
+    <p>该课程年代已久，但 C 语言稳定性极高，其核心语法与底层逻辑至今依然适用。通过这门课，能快速建立起完整的"计算机世界观"，加深对系统底层的了解。老师使用的编译工具是 Dev-C++，该工具轻量、易上手，功能略显单一。我选择了功能丰富、生态完善的 Visual Studio 作为编译工具。</p>
     <ul>
       <li><a href="c-01-algorithm-logic-part1.pdf">算法的基本逻辑能力（上）</a></li>
       <li><a href="c-02-algorithm-logic-part2.pdf">算法的基本逻辑能力（下）</a></li>
-      <li><a href="c-03-c-language-core.pdf">C 语言核心</a></li>
+      <li><a href="c-03-c-language-core.pdf">核心</a></li>
     </ul>
     <details>
-      <summary>笔记范围与跳过的章节</summary>
-      <p>笔记按个人学习需要有所取舍。第 11 至 14 章只保留 11.2、11.3 中的类型定义相关内容，以及第 12 章的部分内容。</p>
-      <h3>第 11 章 · 跳过的内容</h3>
-      <ul>
-        <li>11.1.1 枚举</li>
-        <li>11.1.2 附1 ACLLib 介绍，看几个小游戏的演示</li>
-        <li>11.1.2 附2 Win32API 简单介绍</li>
-        <li>11.1.2 附3 DevC++ 建 ACLLib 项目，第一个窗口跑起来</li>
-        <li>11.3.2 联合</li>
-      </ul>
-      <h3>第 12 章 · 跳过的内容</h3>
-      <ul>
-        <li>12.3.1 多个源代码文件</li>
-        <li>12.3.2 头文件</li>
-        <li>12.3.3 声明</li>
-      </ul>
-      <h3>第 13 章 · 跳过的内容</h3>
-      <ul>
-        <li>13.1.1 格式化输入输出</li>
-        <li>13.1.2 文件输入输出</li>
-        <li>13.1.3 二进制文件</li>
-        <li>13.2.1 按位运算</li>
-        <li>13.2.2 移位运算</li>
-        <li>13.2.3 位运算例子</li>
-        <li>13.2.4 位段</li>
-      </ul>
-      <h3>第 14 章 · 跳过的内容</h3>
-      <ul>
-        <li>14.1.1 可变数组</li>
-        <li>14.1.2 可变数组的数据访问</li>
-        <li>14.1.3 可变数组的自动增长</li>
-        <li>14.2.1 可变数组的缺陷</li>
-        <li>14.2.2 链表</li>
-        <li>14.2.3 链表的函数</li>
-        <li>14.2.4 链表的搜索</li>
-        <li>14.2.5 链表的删除</li>
-        <li>14.2.6 链表的清除</li>
-      </ul>
-      <h3>补充说明</h3>
-      <p>6.2.x 数据类型：主要了解整数范围、浮点数精度与 char。</p>
-      <p>10.1.x 字符串：了解字符串是以 <code>\0</code> 结尾的 char 数组，未细看各个库函数。</p>
+      <summary>跳过的课程</summary>
+
+      <p>这些章节多为特定环境下的老旧技术（如 Win32API）或相对冷门/复杂的底层特性。在非底层开发（如纯应用层开发）中遇到频率极低，属于"用到再学"的范畴。为了保持学习连贯性，先跳过。</p>
+
+    <blockquote>
+    <ul>
+      <li>11.1.1 枚举</li>
+      <li>11.1.2 附1 ACLLib介绍,看几个小游戏的演示</li>
+      <li>11.1.2 附2 Win32API简单介绍,太难了,咱不学!</li>
+      <li>11.1.2 附3 DevC++建ACLLib项目,第一个窗口跑起来</li>
+      <li>11.3.2 联合</li>
+      <li>12.3.1 多个源代码文件</li>
+      <li>12.3.2 头文件</li>
+      <li>12.3.3 声明</li>
+      <li>13.1.1 格式化输入输出</li>
+      <li>13.1.2 文件输入输出</li>
+      <li>13.1.3 二进制文件</li>
+      <li>13.2.1 按位运算</li>
+      <li>13.2.2 移位运算</li>
+      <li>13.2.3 位运算例子</li>
+      <li>13.2.4 位段</li>
+      <li>14.1.1 可变数组</li>
+      <li>14.1.2 可变数组的数据访问</li>
+      <li>14.1.3 可变数组的自动增长</li>
+      <li>14.2.1 可变数组的缺陷</li>
+      <li>14.2.2 链表</li>
+      <li>14.2.3 链表的函数</li>
+      <li>14.2.4 链表的搜索</li>
+      <li>14.2.5 链表的删除</li>
+      <li>14.2.6 链表的清除</li>
+    </ul>
+    </blockquote>
     </details>
   </section>
 
+  <section aria-labelledby="math">
+    <h2 id="math">数学</h2>
+    <ul>
+      <li><a href="%E9%AB%98%E7%AD%89%E6%95%B0%E5%AD%A6.pdf">高等数学 by宋浩</a></li>
+      <li>线性代数 by宋浩</li>
+    </ul>
+  </section>
+
+  <section aria-labelledby="english">
+    <h2 id="english">英语</h2>
+    <ul>
+      <li><a href="%E8%8B%B1%E8%AF%AD%E5%9B%9B%E7%BA%A7%E4%BD%9C%E6%96%87%E7%AC%94%E8%AE%B0.pdf">英语四级作文</a></li>
+      <li>英语六级
+        <ul>
+          <li>作文</li>
+          <li>词汇</li>
+        </ul>
+      </li>
+    </ul>
+  </section>
+
+  <section aria-labelledby="crash-course">
+    <h2 id="crash-course">Crash Course Computer Science by Carrie Anne Philbin</h2>
+    <ul>
+      <li><a href="https://blog.xqher.cn/post/3ac0a3d1be26/#%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%9A%84%E5%9F%BA%E6%9C%AC%E5%85%83%E4%BB%B6-%E5%BC%80%E5%85%B3">参考笔记:wzj042_CS速成课笔记</a></li>
+    </ul>
+  </section>
+
   <section aria-labelledby="machine-learning">
-    <h2 id="machine-learning">二、机器学习 · 吴恩达</h2>
+    <h2 id="machine-learning">Machine Learning by Andrew Ng</h2>
     <p>Coursera 机器学习课程。</p>
     <ul>
-      <li><a href="Machine%20Learning_Selected%20Notes.pdf">Machine Learning Selected Notes（课程笔记节选）</a></li>
-      <li><a href="ML%20Interaction.html">线性回归 · 可视化交互</a></li>
+      <li><a href="Machine%20Learning_Selected%20Notes.pdf">Machine Learning Selected Notes</a></li>
+      <li><a href="ML%20Interaction.html">ML Interaction.html</a></li>
     </ul>
     <p>拖动数据点，观察最小二乘拟合、残差和代价函数的变化。</p>
   </section>
 
-  <section aria-labelledby="other-courses">
-    <h2 id="other-courses">三、其他课程</h2>
+  <section aria-labelledby="recommended-sites">
+    <h2 id="recommended-sites">推荐网站</h2>
+
     <ul>
-      <li><a href="%E9%AB%98%E7%AD%89%E6%95%B0%E5%AD%A6.pdf">高等数学 · 宋浩</a></li>
-      <li><a href="%E8%8B%B1%E8%AF%AD%E5%9B%9B%E7%BA%A7%E4%BD%9C%E6%96%87%E7%AC%94%E8%AE%B0.pdf">英语四级作文笔记</a></li>
+      <li><a href="https://csdiy.wiki/">CS自学指南</a></li>
     </ul>
-    <p>以下课程的笔记尚未上传：</p>
-    <ul>
-      <li>Crash Course Computer Science</li>
-      <li>Neural Networks: Zero to Hero · Andrej Karpathy</li>
-      <li>线性代数 · 宋浩</li>
-      <li>英语：四六级、词汇</li>
-      <li>嵌入式系统 · 浙江大学</li>
-    </ul>
+
+    <p>体系化强的计算机自学地图。<strong>注意：</strong> 该指南非应试导向，内容庞大如清单，切忌贪多。其核心价值在于硬核的作业与 Project，而非单纯听课。课程多为海外全英文公开课，课程本身难度较高，且对英语阅读有极高门槛。<strong>英语六级500分以下的人有明显障碍。</strong></p>
   </section>
 </main>
 <footer><a href="https://github.com/pc-cccc/my-course-notes">GitHub 仓库</a> · <a href="https://github.com/pc-cccc/my-course-notes/issues">交流与勘误</a></footer>
