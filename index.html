@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="个人课程笔记目录：翁恺 C 语言 PDF、吴恩达机器学习与线性回归交互页面。">
+  <title>我的课程笔记目录</title>
+  <style>
+    * { box-sizing: border-box; }
+    html { color-scheme: light; background: #fff; }
+    body {
+      max-width: 1000px;
+      margin: 40px auto;
+      padding: 0 20px;
+      color: #333;
+      font: 18px/1.8 -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+      overflow-wrap: break-word;
+    }
+    h1 { margin: 0 0 24px; padding-bottom: 12px; border-bottom: 1px solid #eee; font-size: 36px; line-height: 1.4; }
+    h2 { margin: 30px 0 12px; font-size: 22px; font-weight: 500; }
+    h3 { margin: 24px 0 8px; font-size: 18px; font-weight: 500; }
+    p { margin: 12px 0; }
+    a { color: #337ab7; text-underline-offset: 3px; }
+    a:hover { color: #23527c; }
+    a:focus-visible, summary:focus-visible { outline: 2px solid #337ab7; outline-offset: 4px; }
+    ul { padding-left: 30px; margin: 12px 0; }
+    li { margin: 10px 0; }
+    details { margin: 18px 0; font-size: 16px; }
+    summary { cursor: pointer; }
+    details ul { margin-block: 6px 16px; }
+    details li { margin: 4px 0; }
+    footer { margin-top: 36px; padding-top: 16px; border-top: 1px solid #eee; font-size: 16px; }
+    @media (max-width: 600px) {
+      body { margin: 24px auto; padding: 0 18px; font-size: 16px; }
+      h1 { font-size: 28px; }
+      h2 { font-size: 20px; }
+    }
+  </style>
+</head>
+<body>
+<main>
+  <h1>我的课程笔记目录</h1>
+  <p>公开课学习笔记与配套资料。</p>
+
+  <section aria-labelledby="c-language">
+    <h2 id="c-language">一、C 语言程序设计 · 翁恺</h2>
+    <p>浙江大学翁恺老师的 C 语言入门课。笔记分为以下三部分：</p>
+    <ul>
+      <li><a href="c-01-algorithm-logic-part1.pdf">算法的基本逻辑能力（上）</a></li>
+      <li><a href="c-02-algorithm-logic-part2.pdf">算法的基本逻辑能力（下）</a></li>
+      <li><a href="c-03-c-language-core.pdf">C 语言核心</a></li>
+    </ul>
+    <details>
+      <summary>笔记范围与跳过的章节</summary>
+      <p>笔记按个人学习需要有所取舍。第 11 至 14 章只保留 11.2、11.3 中的类型定义相关内容，以及第 12 章的部分内容。</p>
+      <h3>第 11 章 · 跳过的内容</h3>
+      <ul>
+        <li>11.1.1 枚举</li>
+        <li>11.1.2 附1 ACLLib 介绍，看几个小游戏的演示</li>
+        <li>11.1.2 附2 Win32API 简单介绍</li>
+        <li>11.1.2 附3 DevC++ 建 ACLLib 项目，第一个窗口跑起来</li>
+        <li>11.3.2 联合</li>
+      </ul>
+      <h3>第 12 章 · 跳过的内容</h3>
+      <ul>
+        <li>12.3.1 多个源代码文件</li>
+        <li>12.3.2 头文件</li>
+        <li>12.3.3 声明</li>
+      </ul>
+      <h3>第 13 章 · 跳过的内容</h3>
+      <ul>
+        <li>13.1.1 格式化输入输出</li>
+        <li>13.1.2 文件输入输出</li>
+        <li>13.1.3 二进制文件</li>
+        <li>13.2.1 按位运算</li>
+        <li>13.2.2 移位运算</li>
+        <li>13.2.3 位运算例子</li>
+        <li>13.2.4 位段</li>
+      </ul>
+      <h3>第 14 章 · 跳过的内容</h3>
+      <ul>
+        <li>14.1.1 可变数组</li>
+        <li>14.1.2 可变数组的数据访问</li>
+        <li>14.1.3 可变数组的自动增长</li>
+        <li>14.2.1 可变数组的缺陷</li>
+        <li>14.2.2 链表</li>
+        <li>14.2.3 链表的函数</li>
+        <li>14.2.4 链表的搜索</li>
+        <li>14.2.5 链表的删除</li>
+        <li>14.2.6 链表的清除</li>
+      </ul>
+      <h3>补充说明</h3>
+      <p>6.2.x 数据类型：主要了解整数范围、浮点数精度与 char。</p>
+      <p>10.1.x 字符串：了解字符串是以 <code>\0</code> 结尾的 char 数组，未细看各个库函数。</p>
+    </details>
+  </section>
+
+  <section aria-labelledby="machine-learning">
+    <h2 id="machine-learning">二、机器学习 · 吴恩达</h2>
+    <p>Coursera 机器学习课程，文字笔记整理中。</p>
+    <ul>
+      <li><a href="ML%20Interaction.html">线性回归 · 可视化交互</a></li>
+    </ul>
+    <p>拖动数据点，观察最小二乘拟合、残差和代价函数的变化。</p>
+  </section>
+
+  <section aria-labelledby="other-courses">
+    <h2 id="other-courses">三、其他课程</h2>
+    <p>以下课程的笔记尚未上传：</p>
+    <ul>
+      <li>Crash Course Computer Science</li>
+      <li>Neural Networks: Zero to Hero · Andrej Karpathy</li>
+      <li>高等数学、线性代数 · 宋浩</li>
+      <li>英语：四六级、作文、词汇</li>
+      <li>嵌入式系统 · 浙江大学</li>
+    </ul>
+  </section>
+</main>
+<footer><a href="https://github.com/pc-cccc/my-course-notes">GitHub 仓库</a> · <a href="https://github.com/pc-cccc/my-course-notes/issues">交流与勘误</a></footer>
+</body>
+</html>
